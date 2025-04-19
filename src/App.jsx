@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from 'react-router-dom';
 
-import { Dashboard, Login, NotFound } from './pages';
+import { CreateUser, Dashboard, Login, NotFound } from './pages';
 import ProtectedRoute from './components/ProtectedRoute';
 import { useAuth } from './context/AuthContext';
 
@@ -25,6 +25,14 @@ const App = () => {
         element={
           <ProtectedRoute>
             <Dashboard />
+          </ProtectedRoute>
+        }
+      />
+      <Route
+        path="/create-user"
+        element={
+          <ProtectedRoute>
+            <CreateUser />
           </ProtectedRoute>
         }
       />

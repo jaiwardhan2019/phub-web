@@ -1,3 +1,7 @@
+import { Link, useNavigate } from 'react-router-dom';
+
+import { useAuth } from '../../context/AuthContext';
+
 import logo from '../../assets/img/logo.png';
 import messageItem1 from '../../assets/img/messages-1.jpg';
 import messageItem2 from '../../assets/img/messages-2.jpg';
@@ -5,13 +9,20 @@ import messageItem3 from '../../assets/img/messages-3.jpg';
 import profileImg from '../../assets/img/profile-img.jpg';
 
 const Navbar = () => {
+  const { logout } = useAuth();
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    logout();
+    navigate('/', { replace: true });
+  };
   return (
     <header id="header" className="header fixed-top d-flex align-items-center">
       <div className="d-flex align-items-center justify-content-between">
-        <a href="index.html" className="logo d-flex align-items-center">
+        <Link to="/dashboard" className="logo d-flex align-items-center">
           <img src={logo} alt="" />
           <span className="d-none d-lg-block">NiceAdmin</span>
-        </a>
+        </Link>
         <i className="bi bi-list toggle-sidebar-btn"></i>
       </div>
       {/* End Logo */}
@@ -264,10 +275,10 @@ const Navbar = () => {
               </li>
 
               <li>
-                <a className="dropdown-item d-flex align-items-center" href="#">
+                <btn className="dropdown-item d-flex align-items-center" onClick={handleLogout}>
                   <i className="bi bi-box-arrow-right"></i>
                   <span>Sign Out</span>
-                </a>
+                </btn>
               </li>
             </ul>
             {/* End Profile Dropdown Items */}

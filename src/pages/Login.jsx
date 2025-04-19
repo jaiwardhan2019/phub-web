@@ -41,29 +41,29 @@ const Login = () => {
                         Login to Your Account
                       </h5>
                       <p className="text-center small">
-                        Enter your username & password to login
+                        Enter your email & password to login
                       </p>
                     </div>
 
                     {/* Login form */}
                     <form className="row g-3 needs-validation" noValidate>
                       <div className="col-12">
-                        <label htmlFor="yourUsername" className="form-label">
-                          Username
+                        <label htmlFor="email" className="form-label">
+                          Email
                         </label>
                         <div className="input-group has-validation">
-                          <span className="input-group-text" id="inputGroupPrepend">
+                          {/* <span className="input-group-text" id="inputGroupPrepend">
                             @
-                          </span>
+                          </span> */}
                           <input
-                            type="text"
-                            name="username"
+                            type="email"
+                            name="email"
                             className="form-control"
-                            id="yourUsername"
+                            id="email"
                             required
                           />
                           <div className="invalid-feedback">
-                            Please enter your username.
+                            Please enter your email.
                           </div>
                         </div>
                       </div>
