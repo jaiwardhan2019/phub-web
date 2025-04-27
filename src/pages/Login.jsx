@@ -1,23 +1,32 @@
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { useAuth } from '../context/AuthContext';
+import { useLogin } from '../hooks';
 
 import logo from '../assets/img/logo.png';
+import TopBarLoader from '../components/ui/TopBarLoader';
 
 const Login = () => {
-  const { login } = useAuth();
+  const { performLogin, loading, error, userData } = useLogin();
   const navigate = useNavigate();
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-    //TODO: Integrate with backend Login API
-    login('23dd5dud4sfc');
-    navigate('/dashboard', { replace: true });
+  useEffect(() => {
+  if (!error && userData) {
+      navigate('/dashboard', { replace: true });
+    }
+  }, [error, userData]);
+
+  const handleLogin = async (e) => {
+    e.preventDefault();
+    await performLogin(email, password);
   };
 
   return (
     <main>
+      <TopBarLoader loading={loading} />
       <div className="container">
         <section className="section register min-vh-100 d-flex flex-column align-items-center justify-content-center py-4">
           <div className="container">
@@ -44,6 +53,14 @@ const Login = () => {
                         Enter your email & password to login
                       </p>
                     </div>
+                    {/* End header */}
+
+                    {error && (
+                      <div className="pt-1 pb-1 alert alert-danger">
+                        <p className="text-center small mt-1 mb-1">{error}</p>
+                      </div>
+                    )}
+                    {/* End Error section */}
 
                     {/* Login form */}
                     <form className="row g-3 needs-validation" noValidate>
@@ -60,6 +77,8 @@ const Login = () => {
                             name="email"
                             className="form-control"
                             id="email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                             required
                           />
                           <div className="invalid-feedback">
@@ -77,6 +96,8 @@ const Login = () => {
                           name="password"
                           className="form-control"
                           id="yourPassword"
+                          value={password}
+                          onChange={(e) => setPassword(e.target.value)}
                           required
                         />
                         <div className="invalid-feedback">
@@ -84,7 +105,7 @@ const Login = () => {
                         </div>
                       </div>
 
-                      <div className="col-12">
+                      {/* <div className="col-12">
                         <div className="form-check">
                           <input
                             className="form-check-input"
@@ -93,11 +114,14 @@ const Login = () => {
                             value="true"
                             id="rememberMe"
                           />
-                          <label className="form-check-label" htmlFor="rememberMe">
+                          <label
+                            className="form-check-label"
+                            htmlFor="rememberMe"
+                          >
                             Remember me
                           </label>
                         </div>
-                      </div>
+                      </div> */}
                       <div className="col-12">
                         <button
                           className="btn btn-primary w-100"

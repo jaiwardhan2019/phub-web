@@ -1,0 +1,34 @@
+.top-loader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: transparent;
+  z-index: 9999;
+  overflow: hidden;
+}
+
+.top-loader .progress-bar {
+  width: 100%;
+  height: 100%;
+  background-color: #0d6efd;
+  transform: translateX(-100%);
+  animation: loading 2s linear infinite;
+}
+
+.top-loader.loading .progress-bar {
+  transform: translateX(0%);
+}
+
+@keyframes loading {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(-50%);
+  }
+  100% {
+    transform: translateX(0%);
+  }
+}
