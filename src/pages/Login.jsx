@@ -1,20 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+import { useAuth } from '../context/AuthContext';
 import { useLogin } from '../hooks';
+import TopBarLoader from '../components/ui/TopBarLoader';
 
 import logo from '../assets/img/logo.png';
-import TopBarLoader from '../components/ui/TopBarLoader';
 
 const Login = () => {
   const { performLogin, loading, error, userData } = useLogin();
+  const { isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-  if (!error && userData) {
+    if (!error && userData) {
+      console.log(userData);
       navigate('/dashboard', { replace: true });
     }
   }, [error, userData]);
@@ -23,6 +26,9 @@ const Login = () => {
     e.preventDefault();
     await performLogin(email, password);
   };
+
+  console.log(userData);
+  if (isAuthenticated) navigate('/dashboard', { replace: true });
 
   return (
     <main>

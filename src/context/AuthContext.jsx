@@ -3,16 +3,23 @@ import { createContext, useContext, useState, useEffect } from 'react';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [authToken, setAuthToken] = useState(null);
+  const [authToken, setAuthToken] = useState(
+    () => localStorage.getItem('authToken')
+  );
+  const [userData, setUserData] = useState(() => localStorage.getItem('userData'));
 
   useEffect(() => {
     const token = localStorage.getItem('authToken');
+    const userData = localStorage.getItem('userData');
     if (token) setAuthToken(token);
+    if (userData) setUserData(userData);
   }, []);
 
-  const login = (token) => {
+  const login = (token, userData) => {
     localStorage.setItem('authToken', token);
+    localStorage.setItem('userData', userData);
     setAuthToken(token);
+    setUserData(userData)
   };
 
   const logout = () => {
@@ -20,12 +27,10 @@ export const AuthProvider = ({ children }) => {
     setAuthToken(null);
   };
 
-  //TODO: Remove the true assignment and uncomment below line
   const isAuthenticated = !!authToken;
-  // const isAuthenticated = true; // For dev purpose
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, login, logout }}>
+    <AuthContext.Provider value={{ isAuthenticated, login, logout, userData }}>
       {children}
     </AuthContext.Provider>
   );

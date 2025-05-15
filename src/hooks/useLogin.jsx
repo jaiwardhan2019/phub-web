@@ -29,7 +29,7 @@ const useLogin = () => {
           token: bearerToken,
         });
 
-        login(bearerToken);
+        login(bearerToken, ...adminAccount);
       } else {
         setError(response.data?.message || 'Login failed!');
       }

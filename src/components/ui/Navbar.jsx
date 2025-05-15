@@ -1,3 +1,4 @@
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { useAuth } from '../../context/AuthContext';
@@ -9,6 +10,7 @@ import messageItem3 from '../../assets/img/messages-3.jpg';
 import profileImg from '../../assets/img/profile-img.jpg';
 
 const Navbar = () => {
+  const [userData, setUserData] = useState({});
   const { logout } = useAuth();
   const navigate = useNavigate();
 
@@ -16,6 +18,12 @@ const Navbar = () => {
     logout();
     navigate('/', { replace: true });
   };
+
+  useEffect(() => {
+    const data = localStorage.getItem('userData');
+    data && setUserData(data);
+  }, [])
+
   return (
     <header id="header" className="header fixed-top d-flex align-items-center">
       <div className="d-flex align-items-center justify-content-between">
@@ -221,15 +229,15 @@ const Navbar = () => {
             >
               <img src={profileImg} alt="Profile" className="rounded-circle" />
               <span className="d-none d-md-block dropdown-toggle ps-2">
-                K. Anderson
+                {`${userData?.firstName[0]}. ${userData?.lastName}`}
               </span>
             </a>
-            {/* End Profile Iamge Icon */}
+            {/* End Profile Image Icon */}
 
             <ul className="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
               <li className="dropdown-header">
-                <h6>Kevin Anderson</h6>
-                <span>Web Designer</span>
+                <h6>{`${userData?.firstName}. ${userData?.lastName}`}</h6>
+                <span>{`${userData?.accountType}`}</span>
               </li>
               <li>
                 <hr className="dropdown-divider" />
@@ -275,10 +283,10 @@ const Navbar = () => {
               </li>
 
               <li>
-                <btn className="dropdown-item d-flex align-items-center" onClick={handleLogout}>
+                <button className="dropdown-item d-flex align-items-center" onClick={handleLogout}>
                   <i className="bi bi-box-arrow-right"></i>
                   <span>Sign Out</span>
-                </btn>
+                </button>
               </li>
             </ul>
             {/* End Profile Dropdown Items */}

@@ -12,11 +12,7 @@ const App = () => {
       <Route
         path="/"
         element={
-          isAuthenticated ? (
-            <Navigate to="/dashboard" replace />
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          <Navigate to={isAuthenticated ? '/dashboard' : '/login'} replace />
         }
       />
       <Route path="/login" element={<Login />} />
